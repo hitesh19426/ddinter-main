@@ -1,11 +1,42 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
+import MyTextInput from "@/components/MyTextInput";
+import { Form, Formik } from "formik";
+import Head from "next/head";
+import { MdDeleteForever } from "react-icons/md";
+import { useState } from "react";
 
-const inter = Inter({ subsets: ['latin'] })
+export function DrugItem({ drug, onClick }) {
+  return (
+    <li className="list-group-item d-flex justify-content-between">
+      <span className="fw-bold px-3 mr-auto">{drug.name}</span>
+      <button className="btn btn-danger" onClick={() => onClick(drug.id)}>
+        <MdDeleteForever />
+      </button>
+    </li>
+  );
+}
 
 export default function Home() {
+  const [id, setId] = useState(0);
+  const [drugList, setDrugList] = useState([]);
+  const [interactionTable, setInteractionTable] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+
+  const submitList = (values) => {
+    console.log(values);
+  };
+
+  const onDeleteHandler = (id) => {
+    setDrugList(drugList.filter((drug) => drug.id !== id));
+  };
+
+  const addDrugHandler = (values) => {
+    const drugObj = { id: id, name: values.name };
+    const newDrugList = drugList.concat(drugObj);
+
+    setId(id + 1);
+    setDrugList(newDrugList);
+  };
+
   return (
     <>
       <Head>
@@ -14,110 +45,53 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+      <main className="col container">
+        <div className="row text-center">
+          <h2 className="">My Drug List</h2>
+        </div>
+
+        <div className="row justify-content-md-center my-3">
+          <div className="card">
+            <div className="card-body">
+              <Formik initialValues={{ name: "" }} onSubmit={addDrugHandler}>
+                <Form>
+                  <MyTextInput
+                    label="Drug Name"
+                    name="name"
+                    type="text"
+                    placeholder="Enter Drug Name"
+                    className=""
+                  />
+
+                  <div className="col-12 ms-5 mt-3">
+                    <button type="submit" className="btn btn-primary">
+                      Add
+                    </button>
+                  </div>
+                </Form>
+              </Formik>
+            </div>
           </div>
         </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
+        <ul className="list-group row">
+          {drugList.map((drug) => (
+            <DrugItem key={drug.id} drug={drug} onClick={onDeleteHandler} />
+          ))}
+        </ul>
+
+        <div className="d-flex justify-content-center my-3">
+          <button className="btn btn-primary px-3"> Submit List </button>
         </div>
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
+        {isLoading && <div> Loading ... </div>}
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
+        {!isLoading && <table></table>}
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+        {!isLoading && <div className=""></div>}
+          
+        
       </main>
     </>
-  )
+  );
 }

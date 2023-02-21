@@ -5,7 +5,7 @@ export default async function handler(req, res, next) {
     console.log("In POST API ROUTE");
     const { db } = await connectToDatabase();
     const drugList = req.body.drugList;
-    console.log("drugList = ", drugList);
+    // console.log("drugList = ", drugList);
 
     const interactionsList = [];
     for (var i = 0; i < drugList.length; i++) {
@@ -31,7 +31,7 @@ export default async function handler(req, res, next) {
       (a, b) => level_to_int[a["Level"]] - level_to_int[b["Level"]]
     );
 
-    console.log(interactionsList);
+    // console.log(interactionsList);
 
     return res.status(200).json({ interactions: interactionsList });
   }

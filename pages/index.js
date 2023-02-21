@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import Head from "next/head";
 import { MdDeleteForever } from "react-icons/md";
 import { useState } from "react";
-import {server} from "./../config/index"
+import { server } from "./../config/index";
 
 export function DrugItem({ drug, onClick }) {
   return (
@@ -22,27 +22,28 @@ export default function Home() {
   const [interactionTable, setInteractionTable] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const submitList = async (event) => {
-    console.log(event);
+  const submitList = async () => {
     setIsLoading(true);
 
     // To api call
     try {
       const result = await fetch(`${server}/api/getInteraction`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          drugList: drugList
-        })
+          drugList: drugList,
+        }),
       });
 
       const res = await result.json();
       const interactions = res.interactions;
       console.log("interactions = ", interactions);
-    }catch(error){
+
+      setInteractionTable(interactions);
+    } catch (error) {
       console.log("Error occured: ", error);
     }
     // set Table
@@ -113,10 +114,51 @@ export default function Home() {
 
         {isLoading && <div> Loading ... </div>}
 
-        {!isLoading && <table></table>}
+        {!isLoading && interactionTable.length !== 0 && (
+          <InteractionTable interactionTable={interactionTable} />
+        )}
 
-        {!isLoading && <div className=""></div>}
+        {!isLoading && interactionTable.length !== 0 && (
+          <div className="">
+            *Note:
+            <b>
+              Unknown interaction means there might be an interaction between
+              the drugs but with unknown severity.
+            </b>
+          </div>
+        )}
       </main>
     </>
   );
 }
+
+const InteractionTable = ({ interactionTable }) => {
+  return (
+    <table className="table">
+      <thead>
+        <tr>
+          <th scope="col"> # </th>
+          <th scope="col"> Drug 1 </th>
+          <th scope="col"> Drug 2 </th>
+          <th scope="col"> Level </th>
+        </tr>
+      </thead>
+      <tbody>
+        {interactionTable.map((interaction, ind) => (
+          <InteractionRow key={ind} ind={ind} interaction={interaction} />
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+const InteractionRow = ({ ind, interaction }) => {
+  return (
+    <tr>
+      <th scope="row">{ind + 1}</th>
+      <td>{interaction.Drug_A}</td>
+      <td>{interaction.Drug_B}</td>
+      <td>{interaction.Level}</td>
+    </tr>
+  );
+};

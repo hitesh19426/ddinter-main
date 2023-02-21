@@ -3,6 +3,7 @@ import { Form, Formik } from "formik";
 import Head from "next/head";
 import { MdDeleteForever } from "react-icons/md";
 import { useState } from "react";
+import {server} from "./../config/index"
 
 export function DrugItem({ drug, onClick }) {
   return (
@@ -18,11 +19,35 @@ export function DrugItem({ drug, onClick }) {
 export default function Home() {
   const [id, setId] = useState(0);
   const [drugList, setDrugList] = useState([]);
-  const [interactionTable, setInteractionTable] = useState([])
+  const [interactionTable, setInteractionTable] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const submitList = (values) => {
-    console.log(values);
+  const submitList = async (event) => {
+    console.log(event);
+    setIsLoading(true);
+
+    // To api call
+    try {
+      const result = await fetch(`${server}/api/getInteraction`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          drugList: drugList
+        })
+      });
+
+      const res = await result.json();
+      const interactions = res.interactions;
+      console.log("interactions = ", interactions);
+    }catch(error){
+      console.log("Error occured: ", error);
+    }
+    // set Table
+
+    setIsLoading(false);
   };
 
   const onDeleteHandler = (id) => {
@@ -81,7 +106,9 @@ export default function Home() {
         </ul>
 
         <div className="d-flex justify-content-center my-3">
-          <button className="btn btn-primary px-3"> Submit List </button>
+          <button className="btn btn-primary px-3" onClick={submitList}>
+            Submit List
+          </button>
         </div>
 
         {isLoading && <div> Loading ... </div>}
@@ -89,8 +116,6 @@ export default function Home() {
         {!isLoading && <table></table>}
 
         {!isLoading && <div className=""></div>}
-          
-        
       </main>
     </>
   );

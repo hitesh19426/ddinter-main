@@ -26,8 +26,8 @@ export default function Home() {
     setIsLoading(true);
 
     // To api call
-    console.log(server)
-    console.log(process.env.NODE_ENV);
+    // console.log(server)
+    // console.log(process.env.NODE_ENV);
     try {
       const result = await fetch(`${server}/api/getInteraction`, {
         method: "POST",
@@ -42,7 +42,7 @@ export default function Home() {
       
       const res = await result.json();
       const interactions = res.interactions;
-      console.log("interactions = ", interactions);
+      // console.log("interactions = ", interactions);
 
       // set Table
       setInteractionTable(interactions);
@@ -155,8 +155,15 @@ const InteractionTable = ({ interactionTable }) => {
 };
 
 const InteractionRow = ({ ind, interaction }) => {
+  const colorMapping = {
+    "Major": "danger",
+    "Moderate": "warning",
+    "Minor": "success",
+    "Unknown": "light",
+  }
+
   return (
-    <tr>
+    <tr className={`table-${colorMapping[interaction.Level]}`}>
       <th scope="row">{ind + 1}</th>
       <td>{interaction.Drug_A}</td>
       <td>{interaction.Drug_B}</td>

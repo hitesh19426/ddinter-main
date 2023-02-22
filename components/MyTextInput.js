@@ -1,7 +1,7 @@
 import { useField } from "formik";
 
 function MyTextInput({ label, ...props }) {
-  const [field, meta] = useField(props);
+  const [field] = useField(props);
 
   return (
     <div className="col-md-10 ms-5 mt-3">
@@ -11,15 +11,8 @@ function MyTextInput({ label, ...props }) {
       <input
         {...field}
         {...props}
-        className={`form-control ${
-          meta.touched ? (meta.error ? "is-invalid" : "is-valid") : null
-        }`}
+        className={`form-control border-secondary`}
       />
-      {meta.error && meta.touched ? (
-        <div className="invalid-feedback"> {meta.error} </div>
-      ) : (
-        <div className="valid-feedback"> Looks good! </div>
-      )}
     </div>
   );
 }

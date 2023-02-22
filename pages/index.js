@@ -26,6 +26,8 @@ export default function Home() {
     setIsLoading(true);
 
     // To api call
+    console.log(server)
+    console.log(process.env.NODE_ENV);
     try {
       const result = await fetch(`${server}/api/getInteraction`, {
         method: "POST",

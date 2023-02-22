@@ -35,9 +35,11 @@ export default function Home() {
           "Accept": "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(),
+        body: JSON.stringify({
+          "drugList": drugList,
+        }),
       });
-
+      
       const res = await result.json();
       const interactions = res.interactions;
       console.log("interactions = ", interactions);

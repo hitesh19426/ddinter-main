@@ -90,7 +90,7 @@ export default function Home() {
 
       <div className="d-flex justify-content-center my-3">
         <button className="btn btn-primary px-3" onClick={submitList}>
-          Submit List
+          Check Interactions
         </button>
       </div>
 
@@ -104,9 +104,8 @@ export default function Home() {
       )}
 
       {!isLoading && interactionTable.length !== 0 && (
-        <div className="">
-          *Note:
-          <b>
+        <div className="alert alert-warning mt-3" role="alert">
+          *Note: <b className="fw-bold">
             Unknown interaction means there might be an interaction between the
             drugs but with unknown severity.
           </b>

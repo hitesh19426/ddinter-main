@@ -28,3 +28,11 @@ This project is licensed under the MIT License. Feel free to use it however you 
 
 ### Note
 The results of interactions are based on the current knowledge and some interactions that do exist may have not been identified. Information provided here is for reference and researches only, not any medical advice.
+
+### Example to view all interactions:
+- Aluminum hydroxide
+- Dolutegravir
+- Aprepitant
+- Abacavir
+- Orlistat
+- Dexamethasone

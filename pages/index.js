@@ -44,11 +44,11 @@ export default function Home() {
       const interactions = res.interactions;
       console.log("interactions = ", interactions);
 
+      // set Table
       setInteractionTable(interactions);
     } catch (error) {
       console.log("Error occured: ", error);
     }
-    // set Table
 
     setIsLoading(false);
   };

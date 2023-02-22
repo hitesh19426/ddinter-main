@@ -2,7 +2,7 @@
 
 ### Description
 
-This Next.js project website is designed to help users find the interaction between drugs by providing information about the medications they are taking. 
+This Next.js project website is designed to help users find the interaction between drugs by providing information about the medications they are taking. You can find the website link in About section of the github repo or just click [here](https://ddinter-main.vercel.app/)
 
 ### Getting Started
 

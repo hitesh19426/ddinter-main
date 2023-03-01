@@ -2,7 +2,7 @@
 
 ### Description
 
-This Next.js project website is designed to help users find the interaction between drugs by providing information about the medications they are taking. You can find the website link in About section of the github repo or just click [here](https://ddinter-main.vercel.app/)
+This Next.js project website is designed to help users find the interaction between drugs by providing information about the medications they are taking. You can find the website link in About section of the github repo or just click [here](https://ddinter-main.vercel.app/). In order to fill the DB, I used python version of mongoDB client from which I read the data csvs, made dataframes and then uploaded the entries to mongoDB.
 
 ### Getting Started
 
@@ -13,6 +13,7 @@ To get started, clone the project repository and run `npm install` in the root d
 - Bootstrap 5
 - MongoDB
 - Formik
+- Python
 
 ### Usage
 To use the Drug Interaction Checker, simply add the name of the medications you are taking using the input field and click "Check Interactions". The website will then display a list of potential drug interactions, along with information about the severity of the interaction.

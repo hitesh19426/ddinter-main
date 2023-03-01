@@ -7,6 +7,15 @@ import InteractionTable from "@/components/InterationTable";
 import MyLoader from "@/components/MyLoader";
 import styles from "@/styles/Header.module.css"
 
+const INTERACTION_EXAMPLE = [
+  {id: 1, name: "Aluminum hydroxide"},
+  {id: 2, name: "Dolutegravir"},
+  {id: 3, name: "Aprepitant"},
+  {id: 4, name: "Abacavir"},
+  {id: 5, name: "Orlistat"},
+  {id: 6, name: "Dexamethasone"},
+]
+
 export default function Home() {
   const [id, setId] = useState(0);
   const [drugList, setDrugList] = useState([]);
@@ -53,6 +62,14 @@ export default function Home() {
     setDrugList(newDrugList);
   };
 
+  const handleResetClick = () => {
+    setDrugList([]);
+  }
+
+  const handleLoadExampleClick = () => {
+    setDrugList(INTERACTION_EXAMPLE);
+  }
+
   return (
     <main className="col container mb-5 mt-3">
       <div className="row text-center">
@@ -73,7 +90,13 @@ export default function Home() {
 
                 <div className="col-12 ms-5 mt-3">
                   <button type="submit" className="btn btn-primary">
-                    Add
+                    Add Drug
+                  </button>
+                  <button type="button" className="btn btn-primary mx-2" onClick={handleResetClick}>
+                    Reset List
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={handleLoadExampleClick}>
+                    Load Example
                   </button>
                 </div>
               </Form>

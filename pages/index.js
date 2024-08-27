@@ -1,8 +1,7 @@
-import { Form, Formik } from "formik";
+import { Form, Formik, Field } from "formik";
 import { useState } from "react";
 import { server } from "@/config/index";
 import DrugItem from "@/components/DrugItem";
-import MyTextInput from "@/components/MyTextInput";
 import InteractionTable from "@/components/InterationTable";
 import MyLoader from "@/components/MyLoader";
 import styles from "@/styles/Header.module.css"
@@ -16,7 +15,7 @@ const INTERACTION_EXAMPLE = [
   {id: 6, name: "Dexamethasone"},
 ]
 
-export default function Home() {
+export default function Home({names}) {
   const [id, setId] = useState(0);
   const [drugList, setDrugList] = useState([]);
   const [interactionTable, setInteractionTable] = useState([]);
@@ -30,7 +29,7 @@ export default function Home() {
       const result = await fetch(`${server}/api/getInteraction`, {
         method: "POST",
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -45,6 +44,7 @@ export default function Home() {
       setInteractionTable(interactions);
     } catch (error) {
       console.log("Error occured: ", error);
+      setIsLoading(false);
     }
 
     setIsLoading(false);
@@ -81,12 +81,9 @@ export default function Home() {
           <div className="card-body">
             <Formik initialValues={{ name: "" }} onSubmit={addDrugHandler}>
               <Form>
-                <MyTextInput
-                  label="Drug Name"
-                  name="name"
-                  type="text"
-                  placeholder="Enter Drug Name"
-                />
+                <Field as="select" name="name">
+                  {names.map((name, index) => <option key={index} value={name}>{name}</option>)}
+                </Field>
 
                 <div className="col-12 ms-5 mt-3">
                   <button type="submit" className="btn btn-primary">
@@ -121,6 +118,13 @@ export default function Home() {
         {isLoading && <MyLoader />}
       </div>
       
+      {!isLoading && interactionTable.length === 0 && (
+        <div className="alert alert-warning mt-3" role="alert">
+          <b className="fw-bold">
+            No Interactions were found
+          </b>
+        </div>
+      )}
 
       {!isLoading && interactionTable.length !== 0 && (
         <InteractionTable interactionTable={interactionTable} />
@@ -136,4 +140,38 @@ export default function Home() {
       )}
     </main>
   );
+}
+
+
+const getDrugNames = async () => {
+  // To api call
+  try {
+    const result = await fetch(`${server}/api/getDrugNames`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      }
+    });
+
+    const res = await result.json();
+    const names = res.names;
+    console.log("names = ", names);
+
+    return names;
+
+  } catch (error) {
+    console.log("Error occured: ", error);
+  }
+};
+
+export async function getStaticProps() {
+  const names = await getDrugNames();
+  console.log("names = ", names);
+
+  return {
+    props: {
+      names,
+    },
+  };
 }

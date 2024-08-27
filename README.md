@@ -8,6 +8,12 @@ This Next.js project website is designed to help users find the interaction betw
 
 To get started, clone the project repository and run `npm install` in the root directory to install all dependencies. Then run `npm run dev` to start the development server. The website will be available at `http://localhost:3000.`
 
+### How to run the project
+- Make sure you have latest version of nodejs and next js installed
+- Run `npm install` to install all dependencies
+- Add an .env file with the following variables `MONGODB_URI` and `DB_NAME` to the root directory of the project
+- Run the server using the following command: `npm run dev`
+
 ### Technology Used
 - Nextjs
 - Bootstrap 5

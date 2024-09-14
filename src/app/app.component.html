@@ -1,4 +1,79 @@
-<h1> This is home page </h1>
+<div class="row text-center">
+  <h2 class="myheading">My Drug List</h2>
+</div>
+
+<div class="row justify-content-md-center my-3">
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="drugNameForm">
+        <mat-form-field class="example-full-width">
+          <mat-label>Number</mat-label>
+          <input
+            type="text"
+            placeholder="Pick one"
+            aria-label="Number"
+            matInput
+            formControlName="name"
+            [matAutocomplete]="auto"
+            [required]="true"
+          />
+
+          <mat-autocomplete #auto="matAutocomplete">
+            @for (option of drugs$ | async; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <div class="col-12 ms-5 mt-3">
+            <button mat-fab extended (click)="addDrug()">
+              Add Drug
+            </button>
+            <button mat-fab extended (click)="onResetClick()">
+              Reset List
+            </button>
+            <button mat-fab extended (click)="onLoadExample()">
+              Load Example
+            </button>
+          </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<table mat-table class="mat-elevation-z8" [dataSource]="selectedDrugListDataSource$" >
+
+    <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete"></mat-icon>  
+        </td>
+      </ng-container>
+
+
+      
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table >
+
+<div class="alert alert-warning mt-3" role="alert">
+  *Note: <b class="fw-bold">
+    Unknown interaction means there might be an interaction between the
+    drugs but with unknown severity.
+  </b>
+</div>
+
 
 <router-outlet />
-

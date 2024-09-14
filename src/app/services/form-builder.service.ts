@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { DrugNameForm } from '../interfaces/DrugNameFormInterface';
 
 @Injectable({
@@ -8,12 +8,12 @@ import { DrugNameForm } from '../interfaces/DrugNameFormInterface';
 export class FormBuilderService {
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: NonNullableFormBuilder
   ) { }
 
   getDrugNamesForm () : FormGroup<DrugNameForm> {
     return this.formBuilder.group<DrugNameForm>({
-      name: this.formBuilder.control<string|null>(null, [Validators.required])
+      name: this.formBuilder.control<string>('', [Validators.required])
     })
   }
 }

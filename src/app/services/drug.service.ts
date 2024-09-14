@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -11,7 +12,7 @@ export class DrugService {
     private http: HttpClient,
   ) { }
 
-  getAllUniqueDrugs() {
+  getAllUniqueDrugs() : Observable<string[]> {
     const url: string = 'https://ddinter-springboot.onrender.com/api/drugs/distinct';
 
     const httpOptions = {
@@ -20,7 +21,7 @@ export class DrugService {
       }
     }
   
-    return this.http.get(url).pipe(
+    return this.http.get<string[]>(url).pipe(
       tap({
         next: (data: any) => console.log(url, data),
         error: (err: any) => console.log(err),

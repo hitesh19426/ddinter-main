@@ -1,4 +1,3 @@
-import { dirname } from 'node:path';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DrugService } from './services/drug.service';
@@ -10,10 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatIconModule} from '@angular/material/icon';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -39,17 +38,18 @@ export class AppComponent {
   drugs$: Observable<string[]> = this.drugService.getAllUniqueDrugs();
 
   selectedDrugsList: any[] = [];
-  selectedDrugListDataSource$: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
+  selectedDrugListDataSource$: MatTableDataSource<any[]> =
+    new MatTableDataSource<any[]>();
 
   displayedColumns: string[] = ['name', 'action'];
 
   INTERACTION_EXAMPLE: any[] = [
-    {name: 'Aluminum hydroxide'},
-    {name: 'Dolutegravir'},
-    {name: 'Aprepitant'},
-    {name: 'Abacavir'},
-    {name: 'Orlistat'},
-    {name: 'Dexamethasone'},
+    { name: 'Aluminum hydroxide' },
+    { name: 'Dolutegravir' },
+    { name: 'Aprepitant' },
+    { name: 'Abacavir' },
+    { name: 'Orlistat' },
+    { name: 'Dexamethasone' },
   ];
 
   constructor(
@@ -80,6 +80,7 @@ export class AppComponent {
   }
 
   onLoadExample() {
-    this.selectedDrugListDataSource$.data = this.selectedDrugsList = this.INTERACTION_EXAMPLE;
+    this.selectedDrugListDataSource$.data = this.selectedDrugsList =
+      this.INTERACTION_EXAMPLE;
   }
 }

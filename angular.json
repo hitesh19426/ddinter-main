@@ -33,6 +33,7 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "@angular/material/prebuilt-themes/magenta-violet.css",
               "src/styles.scss"
             ],

@@ -10,6 +10,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import {
+  CdkDragDrop,
+  CdkDrag,
+  CdkDropList,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
 
 import { Observable } from 'rxjs';
@@ -28,6 +34,8 @@ import { Observable } from 'rxjs';
     MatTableModule,
     MatCardModule,
     MatIconModule,
+    CdkDropList,
+    CdkDrag,
   ],
   providers: [DrugService],
   templateUrl: './app.component.html',
@@ -82,5 +90,29 @@ export class AppComponent {
   onLoadExample() {
     this.selectedDrugListDataSource$.data = this.selectedDrugsList =
       this.INTERACTION_EXAMPLE;
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(
+      this.displayedColumns,
+      event.previousIndex,
+      event.currentIndex
+    );
+  }
+
+  submitList() {
+    const selectedDrugs: string[] = Array.from(
+      new Set(
+        this.selectedDrugsList.map(drug => drug.name)
+      )
+    );
+
+    console.log('selectedDrugs = ', selectedDrugs);
+    this.drugService.getInteractionsBetweenDrugs(selectedDrugs).subscribe({
+      next: (drugs: any) => {
+        console.log('drugs', drugs);
+      },
+      error: (error) => console.log(error),
+    });
   }
 }

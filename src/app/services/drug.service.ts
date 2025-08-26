@@ -28,4 +28,15 @@ export class DrugService {
       })
     )
   }
+
+  getInteractionsBetweenDrugs(drugList: string[]): Observable<any> {
+    const url: string = `https://ddinter-springboot.onrender.com/api/drugs/interactions`;
+
+    return this.http.post(url, drugList).pipe(
+      tap({
+        next: (data: any) => console.log(url, data),
+        error: (err: any) => console.log(err),
+      })
+    );
+  }
 }
